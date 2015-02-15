@@ -1,6 +1,6 @@
 Basic Arduino sketch for color sensor TSC3200, will output readings to console.
 To calibrate, start initial reading to a white surface.
-Best results with RED and BLUE detection, poorer results with GREEN
+Best results with RED and BLUE detection so far, poorer results with GREEN
 
 Pins to Arduino:
 VCC  to  12
