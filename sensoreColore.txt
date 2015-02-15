@@ -1,0 +1,2 @@
+Basic Arduino sketch for color sensor TSC3200, will output readings to console.
+Best results with RED and BLUE, poor results with GREEN
