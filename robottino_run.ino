@@ -176,6 +176,8 @@ void loop() {
     float distanceL = pulseIn(ECHOPINL, HIGH);
     cmL = distanceL / 58;
 
+// decide where to go
+
     if ((cmR < minDistance) || (cmL < minDistance)) {
       if (cmR < cmL) {
         hardleft(5);
