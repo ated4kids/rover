@@ -32,8 +32,15 @@
   #include "RFIDReader.h"
 #endif
 
+#ifndef Accelerometer_h
+  #define Accelerometer_h
+  #include "Accelerometer.h"
+#endif
+
 #include <SPI.h>
 #include <MFRC522.h>
+#include <Wire.h>
+#include <HMC5883L.h>
 
 
 /*
@@ -83,8 +90,8 @@ UltraSonicSensor *ultraSonic2;
 RoverMove *rover;
 Panning *pan;
 RFIDReader *rfidReader;
-//AcceleroMMA7361 accelerometer;
 UnitTesting* testing;
+Accelerometer* accelerometer;
 
 bool left;
 
@@ -112,6 +119,8 @@ void setup() {
   
   pinMode(LineTrackingSensor, INPUT);
 
+  accelerometer = new Accelerometer();
+
   left = true;
 }
 
@@ -136,9 +145,12 @@ void loop()
   long id = rfidReader->GetUID();
 
 
+  Serial.println(accelerometer->ReadPosition());
+  delay(200);
+
   //testing->testColorSensor(VCC, OUT, S2 S3, S0, S1);
 
-  testing->GetDistance(ultraSonic2);
+  //testing->GetDistance(ultraSonic2);
   //delay(100);
   
   //UltraSonicRover();
