@@ -2,14 +2,14 @@
 
 #include <Servo.h> 
 
-#ifndef RoverMove_h
-  #define RoverMove_h
-  #include "RoverMove.h"
+#ifndef Sensors_h
+  #define Sensors_h
+  #include "Sensors.h"
 #endif
 
-#ifndef UltraSonicSensor_h
-  #define UltraSonicSensor_h
-  #include "UltraSonicSensor.h"
+#ifndef Actions_h
+  #define Actions_h
+  #include "Actions.h"
 #endif
 
 #ifndef UnitTesting_h
@@ -17,15 +17,6 @@
   #include "UnitTesting.h"
 #endif
 
-#ifndef ColorSensor_h
-  #define ColorSensor_h
-  #include "ColorSensor.h"
-#endif
-
-#ifndef RFIDReader_h
-  #define RFIDReader_h
-  #include "RFIDReader.h"
-#endif
 
 void UnitTesting::testAcceleroGY61()
 {
