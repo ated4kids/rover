@@ -69,7 +69,7 @@ const int S1  = 7;
 const int RST_PIN = 9; //9;
 const int SS_PIN = 10; //10;
 
-
+const bool DEBUG = true;
 
 /*
 ****************************************************************************
@@ -96,7 +96,7 @@ Compass* compass;
 
 bool left;
 
-bool DebugMode = false;
+bool DebugMode = true;
 
 
 /*
@@ -116,7 +116,7 @@ void setup() {
   // initialize serial communication:
   Serial.begin(9600);
 
-  colorSensor = new ColorSensor(VCC, OUT, S2, S3, S0, S1);
+  colorSensor = new ColorSensor(DEBUG, VCC, OUT, S2, S3, S0, S1);
 
   //Inizializzo tutti gli oggetti che mi servono
   panningServo = new Servo();
@@ -126,16 +126,20 @@ void setup() {
   panningServo->write(90);
   delay(500);
 
-  ultraSonic2 = new UltraSonicSensor(pingPinSensor2, echoPinSensor2);
-  rover = new RoverMove(SpeedM1, DirectionM1, SpeedM2, DirectionM2);
-  pan = new Panning(panningServo);
-  rfidReader = new RFIDReader(RST_PIN, SS_PIN);
+  //Inizializzazione delle varie classi
+  ultraSonic2 = new UltraSonicSensor(DEBUG, pingPinSensor2, echoPinSensor2);
+  rover = new RoverMove(DEBUG, SpeedM1, DirectionM1, SpeedM2, DirectionM2);
+  pan = new Panning(DEBUG, panningServo);
+  rfidReader = new RFIDReader(DEBUG, RST_PIN, SS_PIN);
+
+  //Sul rover non c'é l'I2C
+  //compass = new Compass(DEBUG);
+  
+  //Inizializzazione classe di testing
   testing = new UnitTesting();
   
+  //Inizializzazione variabili line follower
   pinMode(LineTrackingSensor, INPUT);
-
-  compass = new Compass();
-
   left = true;
 }
 
@@ -155,12 +159,28 @@ LOOP
 */
 void loop()
 {
+  Test();
+  
+  /*
+  *******************************************************
+  *******************************************************
+  LOGICHE ROVER
+  *******************************************************
+  *******************************************************
+  */
+  //UltraSonicRover();
+  
+  //LineFollower();  
+}
+
+
+void Test()
+{
+  //Movimento rover
 //  rover->Forward(1200);
-//  
 //  rover->Halt(3000);
-//  return;
 
-
+    //Color Sensor
 //  struct RGB rgb;
 //  rgb = colorSensor->GetRGB();
 //  Serial.print("R: "); 
@@ -170,25 +190,21 @@ void loop()
 //  Serial.print(", B: "); 
 //  Serial.println(rgb.B); 
   
-
+  //RFID
   long id = rfidReader->GetUID();
 
+  //Compass
+  //Serial.println(compass->ReadPosition());
+  //delay(200);
 
-  Serial.println(compass->ReadPosition());
-  delay(200);
 
+  //Color Sensor
   //testing->testColorSensor(VCC, OUT, S2 S3, S0, S1);
 
+  //Ultrasonic Sensor
   //testing->GetDistance(ultraSonic2);
   //delay(100);
-  
-  //UltraSonicRover();
-  
-  //LineFollower();
-  
-  //testing->testAcceleroGY61();
 }
-
 
 /*
 ****************************************************************************

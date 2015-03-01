@@ -31,13 +31,14 @@ SDA su SDA
 class Compass
 {
 public:
-  Compass();
+  Compass(bool debugging);
   float ReadPosition();
 private:
   // Store our compass as a variable.
   HMC5883L compass;
   // Record any errors that may occur in the compass.
   int error = 0;
+  bool m_debug;  
 };
 
 
@@ -68,8 +69,10 @@ class ColorSensor
 {
 public:
   RGB GetRGB();
-  ColorSensor(int vcc, int out, int s2, int s3, int s0, int s1);
+  ColorSensor(bool debugging, int vcc, int out, int s2, int s3, int s0, int s1);
 private:
+  bool m_debug;
+
   int red;
   int grn;
   int blu;
@@ -138,12 +141,13 @@ class RFIDReader
 {
 public:
   long GetUID();
-  RFIDReader(int RSTPin, int SSPin);
+  RFIDReader(bool debugging, int RSTPin, int SSPin);
   void ShowReaderDetails();
   void ShowCardID();
   void DumpCard();
 private:
   MFRC522* mfrc522;
+  bool m_debug;
 };
 
 
@@ -164,7 +168,7 @@ ULTRASONIC SENSOR
 class UltraSonicSensor
 {
 public:
-  UltraSonicSensor (int pingpin, int echopin);
+  UltraSonicSensor (bool debugging, int pingpin, int echopin);
   long GetDistance();
 
 private: 
@@ -173,6 +177,7 @@ private:
 
   int m_pingpin;
   int m_echopin;
+  bool m_debug;  
 };
 
 

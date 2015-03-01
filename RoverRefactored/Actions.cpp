@@ -21,8 +21,9 @@ PANNING
 */
 
 //Riceve in entrata il delegate da chiamare durante il panning
-Panning::Panning(Servo *panningServo)
+Panning::Panning(bool debug, Servo *panningServo)
 {
+  m_debug = debug;
   m_panningServo = *panningServo;
 }
 
@@ -62,8 +63,11 @@ int Panning::PanUntil(bool (*unitlDelegate)())
     //Chiama il delegate e se torna true significa che ha trovato qualcosa, altrimenti continua
     if ((*unitlDelegate)())
     {
-      Serial.print("trovato pos ");
-      Serial.println(pos);
+      if (m_debug)
+      {
+        Serial.print("trovato pos ");
+        Serial.println(pos);
+      }
       return pos;
     } 
     delay(100);
@@ -78,8 +82,11 @@ int Panning::PanUntil(bool (*unitlDelegate)())
 //alla zona libera piu' ampia
 int Panning::ScanForObstacles(long (*measureDelegate)())
 {
-  Serial.println();
-  Serial.println();
+  if (m_debug)
+  {
+    Serial.println();
+    Serial.println();
+  }
   
   //Se il puntatore non è valido esco
   if( 0 == measureDelegate ) 
@@ -97,11 +104,11 @@ int Panning::ScanForObstacles(long (*measureDelegate)())
   int arrLength = (end-start) / step + 1;
   
   struct Obstacle obstacles[arrLength];
-  Serial.print("array: ");
-  Serial.println(arrLength);
-
-
-
+  if (m_debug)
+  {
+    Serial.print("array: ");
+    Serial.println(arrLength);
+  }
 
   //porta il servo a 0
   m_panningServo.write(start);
@@ -120,13 +127,14 @@ int Panning::ScanForObstacles(long (*measureDelegate)())
     
     long currentMeasure = (*measureDelegate)();
 
-
-    Serial.print(progressive);
-    Serial.print(", Dist: ");
-    Serial.print(currentMeasure);
-    Serial.print(", pos: ");
-    Serial.println(pos);
-
+    if (m_debug)
+    {
+        Serial.print(progressive);
+        Serial.print(", Dist: ");
+        Serial.print(currentMeasure);
+        Serial.print(", pos: ");
+        Serial.println(pos);
+    }
 
     obstacles[progressive].Direction = pos;    
 
@@ -188,29 +196,33 @@ int Panning::ScanForObstacles(long (*measureDelegate)())
     maxFoundZone = foundZone;
   }
   
-  Serial.print("StartPosition: ");
-  Serial.print(maxFoundZone.StartPosition);
-  Serial.print(", EndPosition: ");
-  Serial.print(maxFoundZone.EndPosition);
-  Serial.print(", Count: ");
-  Serial.println(maxFoundZone.Count);
-
-
-  for (int obstaclePos = 0; obstaclePos < arrLength; obstaclePos++)
-  {
-    if (obstacles[obstaclePos].Obstacle)
-      Serial.print(1);
-    else
-      Serial.print(0);
-  }
-  Serial.println();
   
+  if (m_debug)
+  {
+    Serial.print("StartPosition: ");
+    Serial.print(maxFoundZone.StartPosition);
+    Serial.print(", EndPosition: ");
+    Serial.print(maxFoundZone.EndPosition);
+    Serial.print(", Count: ");
+    Serial.println(maxFoundZone.Count);
+
+    for (int obstaclePos = 0; obstaclePos < arrLength; obstaclePos++)
+    {
+      if (obstacles[obstaclePos].Obstacle)
+        Serial.print(1);
+      else
+        Serial.print(0);
+    }
+    Serial.println();
+  }
   
   int direzione = (obstacles[maxFoundZone.EndPosition].Direction + obstacles[maxFoundZone.StartPosition].Direction) / 2;
 
-  Serial.print("direzione ");
-  Serial.println(direzione);  
-  
+  if (m_debug)
+  {
+    Serial.print("direzione ");
+    Serial.println(direzione);  
+  } 
   return direzione;
 }
 
@@ -252,11 +264,13 @@ PanningResult Panning::ScanForMaxDistance(long (*measureDelegate)())
     
     long currentMeasure = (*measureDelegate)();
 
-
+    if (m_debug)
+    {
       Serial.print("Dist: ");
       Serial.print(currentMeasure);
       Serial.print(", pos: ");
       Serial.println(pos);
+    }
 
     if (currentMeasure > maxMeasure)
     {
@@ -268,8 +282,11 @@ PanningResult Panning::ScanForMaxDistance(long (*measureDelegate)())
     }
   } 
 
-  Serial.print("trovato pos ");
-  Serial.println(widestPosition);  
+  if (m_debug)
+  {
+    Serial.print("trovato pos ");
+    Serial.println(widestPosition);  
+  } 
   
   return ret;
 }
@@ -289,8 +306,9 @@ ROVER MOVE
 ****************************************************************************
 */
 
-RoverMove::RoverMove(int speedM1, int directionM1, int speedM2, int directionM2)
+RoverMove::RoverMove(bool debug, int speedM1, int directionM1, int speedM2, int directionM2)
 {
+  m_debug = debug;
   m_SpeedM1 = speedM1;
   m_DirectionM1 = directionM1; 
   m_SpeedM2 = speedM2; 
@@ -334,8 +352,9 @@ void RoverMove::Forward(unsigned long time)
 
   analogWrite (m_SpeedM2,255);
   digitalWrite(m_DirectionM2,LOW);
-
-  Serial.println("Avanti");
+  
+  if (m_debug)
+    Serial.println("Avanti");
 
   delay(time);
 }
@@ -348,7 +367,8 @@ void RoverMove::Backward(unsigned long time)
   analogWrite (m_SpeedM2,255);
   digitalWrite(m_DirectionM2,HIGH);
 
-  Serial.println("indietro");
+  if (m_debug)
+     Serial.println("indietro");
 
   delay(time);
 }
@@ -362,7 +382,8 @@ void RoverMove::Halt (unsigned long time)
   analogWrite (m_SpeedM2,0);
   digitalWrite(m_DirectionM2,HIGH);
 
-  Serial.println("fermo");
+  if (m_debug)
+     Serial.println("fermo");
 
   delay(time);
 }
@@ -376,7 +397,8 @@ void RoverMove::Right  (unsigned long time)
   analogWrite (m_SpeedM2,0);
   digitalWrite(m_DirectionM2,HIGH);
 
-  Serial.println("destra");
+  if (m_debug)
+     Serial.println("destra");
 
   delay(time);
 }
@@ -389,7 +411,8 @@ void RoverMove::SpinRight  (unsigned long time)
   analogWrite (m_SpeedM2,255);
   digitalWrite(m_DirectionM2,HIGH);
 
-  Serial.println("destra sul posto");
+  if (m_debug)
+     Serial.println("destra sul posto");
 
   delay(time);
 }
@@ -402,7 +425,8 @@ void RoverMove::Left  (unsigned long time)
   analogWrite (m_SpeedM2,255);
   digitalWrite(m_DirectionM2,LOW);
 
-  Serial.println("sinistra");
+  if (m_debug)
+     Serial.println("sinistra");
 
   delay(time);
 }
@@ -415,7 +439,8 @@ void RoverMove::SpinLeft  (unsigned long time)
   analogWrite (m_SpeedM2,255);
   digitalWrite(m_DirectionM2,LOW);
 
-  Serial.println("sinistra sul posto");
+  if (m_debug)
+     Serial.println("sinistra sul posto");
 
   delay(time);
 }

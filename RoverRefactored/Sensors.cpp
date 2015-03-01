@@ -24,23 +24,31 @@ COMPASS
 */
 
 
-Compass::Compass()
+Compass::Compass(bool debugging)
 {
-  Serial.println("Starting the I2C interface.");
+  m_debug = debugging;
+  
+  if (m_debug)
+     Serial.println("Starting the I2C interface.");
   Wire.begin(); // Start the I2C interface.
 
-  Serial.println("Constructing new HMC5883L");
+  if (m_debug)
+     Serial.println("Constructing new HMC5883L");
   compass = HMC5883L(); // Construct a new HMC5883 compass.
     
-  Serial.println("Setting scale to +/- 1.3 Ga");
+  if (m_debug)
+     Serial.println("Setting scale to +/- 1.3 Ga");
   error = compass.SetScale(1.3); // Set the scale of the compass.
   if(error != 0) // If there is an error, print it out.
-    Serial.println(compass.GetErrorText(error));
+    if (m_debug)
+       Serial.println(compass.GetErrorText(error));
   
-  Serial.println("Setting measurement mode to continous.");
+  if (m_debug)
+     Serial.println("Setting measurement mode to continous.");
   error = compass.SetMeasurementMode(Measurement_Continuous); // Set the measurement mode to Continuous
   if(error != 0) // If there is an error, print it out.
-    Serial.println(compass.GetErrorText(error));}
+    if (m_debug)
+       Serial.println(compass.GetErrorText(error));}
 
 
 float Compass::ReadPosition()
@@ -133,30 +141,22 @@ RGB ColorSensor::GetRGB()
       lastDigitalRead = digitalReadValue;
     }
     
-//    Serial.print("value: ");
-//    Serial.println(scaleFactor[i]*count);
-    
     if (i == 0)
     {
       ret.R = scaleFactor[i]*count;
-//      Serial.print("r value: ");
-//      Serial.println(scaleFactor[i]*count);
     }
     else if (i == 1)
     {
       ret.G = scaleFactor[i]*count;
-//      Serial.print("g value: ");
-//      Serial.println(scaleFactor[i]*count);
     }
     else if (i == 2)
     {
       ret.B = scaleFactor[i]*count;
-//      Serial.print("b value: ");
-//      Serial.println(scaleFactor[i]*count);
     }
     else 
     { 
-      Serial.println("Errore");
+      if (m_debug)
+         Serial.println("Errore");
     }
     
     counter=0;
@@ -173,8 +173,10 @@ RGB ColorSensor::GetRGB()
   return ret;
 }
 
-ColorSensor::ColorSensor(int vcc, int out, int s2, int s3, int s0, int s1)
+ColorSensor::ColorSensor(bool debug, int vcc, int out, int s2, int s3, int s0, int s1)
 {
+  m_debug = debug;
+
   VCC = vcc;
   OUT = out;
   S2  = s2;
@@ -294,14 +296,17 @@ void ColorSensor::Select_Filters(int RGB)
  */
 
 
-RFIDReader::RFIDReader(int RSTPin, int SSPin)
+RFIDReader::RFIDReader(bool debug, int RSTPin, int SSPin)
 {
+  m_debug = debug;
+  
   mfrc522 = new MFRC522(SSPin, RSTPin);	// Create MFRC522 instance
   
   SPI.begin();			// Init SPI bus
   mfrc522->PCD_Init();		// Init MFRC522
   ShowReaderDetails();	// Show details of PCD - MFRC522 Card Reader details
-  Serial.println("Scan PICC to see UID, type, and data blocks...");
+  if (m_debug)
+     Serial.println("Scan PICC to see UID, type, and data blocks...");
 }
 
 long RFIDReader::GetUID()
@@ -326,7 +331,8 @@ long RFIDReader::GetUID()
   }   
   
   if (ret != 0)
-    Serial.println(ret);
+    if (m_debug)
+       Serial.println(ret);
   
   return ret;
 }
@@ -385,8 +391,9 @@ COLOR SENSOR
 */
 
 
-UltraSonicSensor::UltraSonicSensor (int pingpin, int echopin)
+UltraSonicSensor::UltraSonicSensor (bool debug, int pingpin, int echopin)
 {
+  m_debug = debug;
   m_pingpin = pingpin;
   m_echopin = echopin;
 }

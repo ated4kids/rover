@@ -83,7 +83,7 @@ long UnitTesting::GetDistance(UltraSonicSensor *sensor)
 
 void UnitTesting::testColorSensor(int vcc, int out, int s2, int s3, int s0, int s1)
 {
-  ColorSensor* colorSensor = new ColorSensor(vcc, out, s2, s3, s0, s1);
+  ColorSensor* colorSensor = new ColorSensor(true, vcc, out, s2, s3, s0, s1);
   
   struct RGB rgb;
   rgb = colorSensor->GetRGB();
@@ -104,4 +104,23 @@ void UnitTesting::testRFID (int RSTPin, int SSPin)
 //  long id = rfidReader->GetUID();
 //  Serial.println(id);
 }
-  
+
+
+void UnitTesting::rotazioneControllata(RoverMove *rover, Compass* compass)
+{
+  //Rotazione controllata
+  float startPosition = compass->ReadPosition();
+  delay(100);
+  float currentPosition = 0.0;
+  int degrees = 90.0;
+  while(true)
+  {    
+    rover->Right(100);
+    currentPosition = compass->ReadPosition();
+    Serial.println(currentPosition);
+    if (abs(abs(startPosition) - abs(currentPosition)) >= degrees)
+      break;
+  }
+
+  rover->Halt(3000);
+}

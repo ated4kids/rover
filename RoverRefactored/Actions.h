@@ -40,10 +40,11 @@ class Panning
 {
 private:
   Servo m_panningServo;
+  bool m_debug;
 
 public:
   //Riceve in entrata il delegate da chiamare durante il panning
-  Panning(Servo *panningServo);
+  Panning(bool debugging, Servo *panningServo);
 
   /* 
    Questa funzione riceve un delegate (puntatore a funzione) come parametro e lo scopo è quello di fare il panning del sensore
@@ -80,10 +81,11 @@ private:
   int m_DirectionM1; 
   int m_SpeedM2; 
   int m_DirectionM2;
+  bool m_debug;
 
 public:
 
-  RoverMove(int speedM1, int directionM1, int speedM2, int directionM2);
+  RoverMove(bool debug, int speedM1, int directionM1, int speedM2, int directionM2);
   int ForwardUntil(bool (*unitlDelegate)());
   int MoveUntil(bool (*unitlDelegate)(), void (*moveDelegate)(long unsigned int));
   //int MoveUntil(bool (*unitlDelegate)(), void (RoverMove::*moveDelegate)(long unsigned int));
