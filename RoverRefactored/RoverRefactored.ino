@@ -160,9 +160,10 @@ LOOP
 */
 void loop()
 {
-  /* //TODO DL ALTERNATIVE A FORLOOP
+  //TODO DL ALTERNATIVE A FORLOOP
   Test();
-  */
+  
+  
   /*
   *******************************************************
   *******************************************************
