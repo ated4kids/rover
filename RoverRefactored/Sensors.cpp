@@ -23,7 +23,7 @@ COMPASS
 ****************************************************************************
 */
 
-
+/* //TODO DL UNABLE TO FIND THE LIBRARY FOR THE COMPASS
 Compass::Compass(bool debugging)
 {
   m_debug = debugging;
@@ -91,7 +91,7 @@ float Compass::ReadPosition()
   // it run at its natural speed.
   // delay(66);
 }
-
+*/
 
 
 /*

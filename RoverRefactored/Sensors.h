@@ -1,6 +1,6 @@
 //#include <Wire.h>
 // Reference the HMC5883L Compass Library
-#include <HMC5883L.h>
+//#include <HMC5883L.h> //TODO DL UNABLE TO FIND THE LIBRARY FOR THE COMPASS
 
 #include <SPI.h>
 #include <MFRC522.h>
@@ -27,7 +27,7 @@ GND su ground
 SCL su SCL
 SDA su SDA
 */
-
+/*//TODO DL  UNABLE TO FIND THE LIBRARY FOR THE COMPASS
 class Compass
 {
 public:
@@ -40,7 +40,7 @@ private:
   int error = 0;
   bool m_debug;  
 };
-
+*/
 
 /*
 ****************************************************************************

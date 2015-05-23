@@ -21,7 +21,7 @@
 #include <SPI.h>
 #include <MFRC522.h>
 #include <Wire.h>
-#include <HMC5883L.h>
+//#include <HMC5883L.h> //TODO DL UNABLE TO FIN THE LIBRARY 
 
 
 /*
@@ -92,7 +92,7 @@ RoverMove *rover;
 Panning *pan;
 RFIDReader *rfidReader;
 UnitTesting* testing;
-Compass* compass;
+//Compass* compass;//TODO DL UNABLE TO FIND THE LIBRARY FOR THE COMPASS
 
 bool left;
 
@@ -113,6 +113,7 @@ SETUP
 ****************************************************************************
 */
 void setup() {
+/*//TODO DL ALTERNATIVE A FOR SETUP
   // initialize serial communication:
   Serial.begin(9600);
 
@@ -140,7 +141,7 @@ void setup() {
   
   //Inizializzazione variabili line follower
   pinMode(LineTrackingSensor, INPUT);
-  left = true;
+  left = true;*/
 }
 
 
@@ -159,8 +160,9 @@ LOOP
 */
 void loop()
 {
+  /* //TODO DL ALTERNATIVE A FORLOOP
   Test();
-  
+  */
   /*
   *******************************************************
   *******************************************************

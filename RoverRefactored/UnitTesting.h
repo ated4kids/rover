@@ -15,5 +15,5 @@ class UnitTesting
     void testAcceleroGY61();
     void testColorSensor(int VCC, int OUT, int S2, int S3, int S0, int S1);
     void testRFID (int RSTPin, int SSPin);
-    void rotazioneControllata(RoverMove *rover, Compass* compass);
+    /*void rotazioneControllata(RoverMove *rover, Compass* compass);*/ //TODO DL UNABLE TO FIND THE LIBRARY FOR THE COMPASS
 };

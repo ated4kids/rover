@@ -105,7 +105,7 @@ void UnitTesting::testRFID (int RSTPin, int SSPin)
 //  Serial.println(id);
 }
 
-
+/* //TODO DL UNABLE TO FIND THE LIBRARY FOR THE COMPASS
 void UnitTesting::rotazioneControllata(RoverMove *rover, Compass* compass)
 {
   //Rotazione controllata
@@ -123,4 +123,4 @@ void UnitTesting::rotazioneControllata(RoverMove *rover, Compass* compass)
   }
 
   rover->Halt(3000);
-}
+}*/
