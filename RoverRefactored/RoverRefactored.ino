@@ -113,7 +113,7 @@ SETUP
 ****************************************************************************
 */
 void setup() {
-/*//TODO DL ALTERNATIVE A FOR SETUP
+  //TODO DL ALTERNATIVE A FOR SETUP
   // initialize serial communication:
   Serial.begin(9600);
 
@@ -141,7 +141,7 @@ void setup() {
   
   //Inizializzazione variabili line follower
   pinMode(LineTrackingSensor, INPUT);
-  left = true;*/
+  left = true;
 }
 
 
@@ -192,7 +192,7 @@ void Test()
 //  Serial.print(rgb.G); 
 //  Serial.print(", B: "); 
 //  Serial.println(rgb.B); 
-  
+    
   //RFID
   long id = rfidReader->GetUID();
 
